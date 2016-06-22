@@ -120,7 +120,9 @@ iotfClient.on("connect", function () {
     var dataPacket = {
         "d" : {
             "temperature" : 0,
-            "pressure" : 50
+            "pressure" : 50,
+            "humidity" : 10,
+            "luminosity" : 5
         }
     };
 
@@ -141,14 +143,38 @@ iotfClient.on("connect", function () {
         //
         // increment temperature up to 100 then back down to 0
         //
-        if (dataPacket.d.temperature === 0) {
-            var countingUp = true;
-            var temperatureIncrement = 2;
-        } else if (dataPacket.d.temperature === 100) {
-            var countingUp = false;
-            var temperatureIncrement = -2;
+        //if (dataPacket.d.temperature === 0) {
+        //   var countingUp = true;
+        //} else if (dataPacket.d.temperature === 100) {
+        //   var countingUp = false;
+        //}
+        //if (countingUp === true) {
+        //    if (dataPacket.d.temperature === 100) {
+        //       var countingUp = false;
+        //    } else {
+        //       var countingUp = true;
+        //    }
+        //    var temperatureIncrement = 20;
+        //} else {
+        //    if (dataPacket.d.temperature === 0) {
+        //       var countingUp = true
+        //    } else {
+        //       var countingUp = false;
+        //    }
+            var temperatureIncrement = 20;
+            var humidityIncrement = 2;
+          //  var luminosityIncrement = 1;
+        //}
+        if (dataPacket.d.temperature === 100) {
+            dataPacket.d.temperature = 0;
         }
         dataPacket.d.temperature = dataPacket.d.temperature + temperatureIncrement;
+
+        if (dataPacket.d.humidity === 100) {
+            dataPacket.d.humidity = 0;
+        }
+        dataPacket.d.humidity = dataPacket.d.humidity + humidityIncrement;
+
 
         //
         // increment the pressure until 100 and start again at 0
